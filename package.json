@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/danielearwicker/neaten/issues"
   },
-  "homepage": "https://github.com/danielearwicker/neaten#readme"
+  "homepage": "https://github.com/danielearwicker/neaten#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
+  }
 }
