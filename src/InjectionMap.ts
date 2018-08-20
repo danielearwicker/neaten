@@ -1,20 +1,17 @@
-import { Interface } from "./Interface";
+import { List, Map } from "immutable";
 import { Constructor } from "./Constructor";
-import { InjectionContext } from "./InjectionContext";
-
-export const enum InjectionKind {
-    Singleton,
-    Scoped,
-    Transient
-}
-
-type Injectable = [InjectionKind, Constructor<object>[]];
+import { Injector } from "./Injector";
+import { Interface } from "./Interface";
 
 export class InjectionMap {
 
-    private entries = new Map<Interface<object>, Injectable>();
+    private entries: Map<Interface<object>, List<Constructor<object>>>;
 
-    get(iface: Interface<object>) {
+    constructor(entries?: Map<Interface<object>, List<Constructor<object>>>) {
+        this.entries = entries || Map();
+    }
+
+    public getConstructors(iface: Interface<object>) {
 
         const entry = this.entries.get(iface);
         if (!entry) {
@@ -24,37 +21,15 @@ export class InjectionMap {
         return entry;
     }
 
-    add<TInterface extends object>(
-        kind: InjectionKind,
-        iface: Interface<TInterface>,
-        ctor: Constructor<TInterface>) {
-     
-        getOrAdd(this.entries, iface, () => [kind, []] as Injectable)[1].push(ctor);
-        return this;
-    }
-
-    singleton<TInterface extends object>(
+    public add<TInterface extends object>(
         iface: Interface<TInterface>,
         ctor: Constructor<TInterface>) {
 
-        return this.add(InjectionKind.Singleton, iface, ctor);
+        return new InjectionMap(this.entries.update(iface,
+            list => (list || List<Constructor<object>>()).push(ctor)));
     }
 
-    transient<TInterface extends object>(
-        iface: Interface<TInterface>,
-        ctor: Constructor<TInterface>) {
-
-        return this.add(InjectionKind.Transient, iface, ctor);
-    }
-
-    scoped<TInterface extends object>(
-        iface: Interface<TInterface>,
-        ctor: Constructor<TInterface>) {
-
-        return this.add(InjectionKind.Scoped, iface, ctor);
-    }
-
-    context(): InjectionContext {
-        return new InjectionContext(this);
+    public get injector() {
+        return new Injector(this);
     }
 }

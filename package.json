@@ -1,16 +1,24 @@
 {
   "name": "neaten",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "TypeScript-friendly dependency injection for JavaScript",
   "main": "built/src/index.js",
+  "typings": "built/src/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "tape built/tests/**/*Tests.js",
+    "coverage": "istanbul cover tape built/test/**/*Tests.js",
+    "all": "npm run build && npm run test && npm run coverage",
+    "prepublish": "npm run build && npm run test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/danielearwicker/neaten.git"
   },
-  "keywords": ["Dependency Injection", "TypeScript"],
+  "keywords": [
+    "Dependency Injection",
+    "TypeScript"
+  ],
   "author": "Daniel Earwicker <dan@earwicker.com>",
   "license": "MIT",
   "bugs": {
@@ -18,9 +26,15 @@
   },
   "homepage": "https://github.com/danielearwicker/neaten#readme",
   "dependencies": {
+    "coveralls": "^3.0.2",
+    "faucet": "0.0.1",
+    "immutable": "^3.8.2",
+    "istanbul": "^0.4.5"
   },
   "devDependencies": {
+    "@types/blue-tape": "^0.1.31",
+    "blue-tape": "^1.0.0",
     "tslint": "^5.10.0",
-    "typescript": "^2.9.2"
+    "typescript": "^3.0.1"
   }
 }

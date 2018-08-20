@@ -1,14 +1,14 @@
-import { InjectionContext } from "./InjectionContext";
+import { Scope } from "./Scope";
 
 export class Interface<TInterface extends object> {
 
     constructor(public readonly name: string) { }
 
-    one(context: InjectionContext): TInterface {
-        return context.one(this) as TInterface;
+    public one(scope: Scope): TInterface {
+        return scope.one(this);
     }
 
-    many(context: InjectionContext): TInterface[] {
-        return context.many(this) as TInterface[];
+    public many(scope: Scope): TInterface[] {
+        return scope.many(this);
     }
 }

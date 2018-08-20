@@ -1,4 +1,3 @@
-import { InjectionContext } from "./InjectionContext";
+import { Injector } from "./Injector";
 
-export type Constructor<TInterface> = (provider: InjectionContext) => TInterface;
-
+export type Constructor<TInterface> = (injector: Injector) => TInterface;
